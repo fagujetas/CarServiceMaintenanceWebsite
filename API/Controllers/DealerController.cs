@@ -3,11 +3,15 @@ using API.Data;
 using API.Dtos;
 using API.Models;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+
+    [Route("api/dealer")]
+    [ApiController]
     public class DealerController : ControllerBase
     {
         private readonly IDealerRepo _dealerRepo;
@@ -17,18 +21,18 @@ namespace API.Controllers
             _dealerRepo = dealerRepo;
             _mapper = mapper;
         }
-        
+
         [HttpGet]
         public ActionResult<IEnumerable<DealerReadDto>> GetAllDealers()
         {
             var dealerItems = _dealerRepo.GetAllDealers();
             return Ok(_mapper.Map<IEnumerable<DealerReadDto>>(dealerItems));
         }
-        
-        [HttpGet("{id}", Name="GetDealerById")]
+
+        [HttpGet("{id}", Name = "GetDealerById")]
         public ActionResult<DealerReadDto> GetDealerById(int id)
         {
-            
+
             var dealerItem = _dealerRepo.GetDealerInfoById(id);
 
             if (dealerItem != null)
@@ -37,7 +41,7 @@ namespace API.Controllers
             }
             return NotFound();
         }
-        
+
         [HttpPost]
         public ActionResult<DealerReadDto> CreateDealerInfo(DealerCreateDto dealerCreateDto)
         {
@@ -50,14 +54,14 @@ namespace API.Controllers
             var dealerReadDto = _mapper.Map<DealerReadDto>(dealer);
 
             //NB: Creates a CreatedAtRouteResult object that produces a Microsoft.AspNetCore.Http.StatusCodes.Status201Created response
-            return CreatedAtRoute(nameof(CreateDealerInfo), new {Id = dealerReadDto.Id}, dealerReadDto);
+            return CreatedAtRoute(nameof(CreateDealerInfo), new { Id = dealerReadDto.Id }, dealerReadDto);
         }
         [HttpPut("{id}")]
         public ActionResult UpdateCoreMVC(int id, DealerUpdateDto coreMVCUpdateDto)
         {
             var dealerFromRepo = _dealerRepo.GetDealerInfoById(id);
 
-            if(dealerFromRepo == null)
+            if (dealerFromRepo == null)
             {
                 return NotFound();
             }
@@ -80,13 +84,13 @@ namespace API.Controllers
             return NoContent();
 
         }
-        
+
         [HttpPatch("{id}")]
         public ActionResult PartialCoreMVCUpdate(int id, JsonPatchDocument<DealerUpdateDto> patchDoc)
-        {   
+        {
             var dealerFromRepo = _dealerRepo.GetDealerInfoById(id);
 
-            if(dealerFromRepo == null)
+            if (dealerFromRepo == null)
             {
                 return NotFound();
             }
@@ -103,15 +107,15 @@ namespace API.Controllers
             //NB @ ModelState: makes sure that validations are valid
             patchDoc.ApplyTo(dealerToPatch, ModelState);
 
-            if(!TryValidateModel(dealerToPatch))
+            if (!TryValidateModel(dealerToPatch))
             {
                 return ValidationProblem(ModelState);
             }
-            
+
             _mapper.Map(dealerToPatch, dealerFromRepo);
             _dealerRepo.UpdateDealerInfo(dealerFromRepo);
             _dealerRepo.SaveChanges();
-            
+
             return NoContent();
         }
     }
