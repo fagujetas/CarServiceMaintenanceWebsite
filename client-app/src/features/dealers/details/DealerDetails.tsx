@@ -1,22 +1,22 @@
 import React from 'react';
-import { Card, Image, Icon, Button } from 'semantic-ui-react';
+import { Card, Image, Button } from 'semantic-ui-react';
 import { IDealerInfo } from '../../../app/models/dealerInfo';
 
 interface IProps {
-    dealerinfos: IDealerInfo[]
+    dealer: IDealerInfo;
 }
 
-export const DealerDetails: React.FC<IProps> = ({ dealerinfos }) => {
+export const DealerDetails: React.FC<IProps> = ({ dealer }) => {
     return (
         <Card fluid>
             <Image src='/assets/placeholder.png' wrapped ui={false} />
             <Card.Content>
-                <Card.Header>Dealer Name</Card.Header>
+                <Card.Header>{dealer.name}</Card.Header>
                 <Card.Meta>
-                    <span>Address</span>
+                    <span>{dealer.address1}</span>
                 </Card.Meta>
                 <Card.Meta>
-                    <span>PostCode City</span>
+                    <span>{dealer.postCode} {dealer.city}</span>
                 </Card.Meta>
                 <Card.Description>
                     Contact Person
@@ -27,8 +27,8 @@ export const DealerDetails: React.FC<IProps> = ({ dealerinfos }) => {
             </Card.Content>
             <Card.Content extra>
                 <Button.Group widths={2}>
-                    <Button basic color='green' content='Set Appointment'/>
-                    <Button basic color='grey' content='Cancel'/>
+                    <Button basic color='green' content='Set Appointment' />
+                    <Button basic color='grey' content='Cancel' />
                 </Button.Group>
             </Card.Content>
         </Card>

@@ -49,8 +49,8 @@ namespace API.Controllers
         }
 
         //test
-        [HttpGet("searchbycity/{city}")]
-        public async Task<ActionResult<List<DealerInfo>>> SearchByCity(string city)
+        [HttpGet("searchdealersbycity/{city}")]
+        public async Task<ActionResult<List<DealerInfo>>> SearchDealersByCity(string city)
         {
             return await _mediator.Send(new SearchDealersByCity.Query{City = city});
         }

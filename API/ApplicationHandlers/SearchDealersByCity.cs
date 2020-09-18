@@ -18,8 +18,8 @@ namespace API.ApplicationHandlers
 
         public class Handler : IRequestHandler<Query, List<DealerInfo>>
         {
-            private readonly DealerDataContext _context;
-            public Handler(DealerDataContext context)
+            private readonly AppDataContext _context;
+            public Handler(AppDataContext context)
             {
                 _context = context;
 

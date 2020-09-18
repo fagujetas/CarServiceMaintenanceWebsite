@@ -7,8 +7,8 @@ namespace API.Data
 {
     public class SqlDealerRepo : IDealerRepo
     {
-        private readonly DealerDataContext _context;
-        public SqlDealerRepo(DealerDataContext context)
+        private readonly AppDataContext _context;
+        public SqlDealerRepo(AppDataContext context)
         {
             _context = context;
 

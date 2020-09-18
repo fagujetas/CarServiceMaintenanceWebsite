@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class DealerDataContext : DbContext
+    public class AppDataContext : DbContext
     {
-        public DealerDataContext(DbContextOptions<DealerDataContext> opt) : base(opt)
+        public AppDataContext(DbContextOptions<AppDataContext> opt) : base(opt)
         {
             
         }
@@ -14,5 +14,8 @@ namespace API.Data
         public DbSet<DealerContact> DealerContacts { get; set; }
         public DbSet<DealerInfo> DealerInfos { get; set; }
         public DbSet<DealerOperatingHour> DealerOperatingHours { get; set; }
+
+        //added 17 Sept 2020 for AppointmentInfo        
+        public DbSet<AppointmentInfo> AppointmentInfos { get; set; }
     }
 }

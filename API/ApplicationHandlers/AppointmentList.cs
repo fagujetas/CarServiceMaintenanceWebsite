@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.ApplicationHandlers
 {
-    public class DealerList
-    {
-        public class Query : IRequest<List<DealerInfo>> { }
+    public class AppointmentList
+    {        
+        public class Query : IRequest<List<AppointmentInfo>> { }
 
-        public class Handler : IRequestHandler<Query, List<DealerInfo>>
+        public class Handler : IRequestHandler<Query, List<AppointmentInfo>>
         {
             private readonly AppDataContext _context;
             public Handler(AppDataContext context)
@@ -20,11 +20,11 @@ namespace API.ApplicationHandlers
                 _context = context;
 
             }
-            public async Task<List<DealerInfo>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<AppointmentInfo>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var dealers = await _context.DealerInfos.ToListAsync();
+                var appointment = await _context.AppointmentInfos.ToListAsync();
 
-                return dealers;
+                return appointment;
             }
         }
     }
