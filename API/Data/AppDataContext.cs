@@ -17,5 +17,8 @@ namespace API.Data
 
         //added 17 Sept 2020 for AppointmentInfo        
         public DbSet<AppointmentInfo> AppointmentInfos { get; set; }
+
+        //added 25 Sept 2020 for ClientInfo        
+        public DbSet<ClientInfo> ClientInfos { get; set; }
     }
 }

@@ -31,30 +31,37 @@ namespace API.ApplicationHandlers
             {
                 this._context = context;
             }
-            
+
             public async Task<Unit> Handle(Appointment request, CancellationToken cancellationToken)
             {
-                var appointment = new AppointmentInfo
+                if (request.DateTimeOfAppointment < DateTime.Now)
                 {
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
-                    Address = request.Address,
-                    ContactNumber = request.ContactNumber,
-                    Email = request.Email,
-                    CarMake = request.CarMake,
-                    CarModel = request.CarModel,
-                    CarYear = request.CarYear,
-                    IsMaintenance = request.IsMaintenance,
-                    DateTimeOfAppointment = request.DateTimeOfAppointment
-                };
+                    throw new Exception("Date and time of appointment should be later than today's date and time");
+                }
+                else
+                {
+                    var appointment = new AppointmentInfo
+                    {
+                        FirstName = request.FirstName,
+                        LastName = request.LastName,
+                        Address = request.Address,
+                        ContactNumber = request.ContactNumber,
+                        Email = request.Email,
+                        CarMake = request.CarMake,
+                        CarModel = request.CarModel,
+                        CarYear = request.CarYear,
+                        IsMaintenance = request.IsMaintenance,
+                        DateTimeOfAppointment = request.DateTimeOfAppointment
+                    };
 
-                _context.AppointmentInfos.Add(appointment);
+                    _context.AppointmentInfos.Add(appointment);
 
-                var success = await _context.SaveChangesAsync() > 0;
+                    var success = await _context.SaveChangesAsync() > 0;
 
-                if(success) return Unit.Value;
+                    if (success) return Unit.Value;
 
-                throw new Exception("Problem saving changes");
+                    throw new Exception("Problem saving changes");
+                }
             }
         }
     }

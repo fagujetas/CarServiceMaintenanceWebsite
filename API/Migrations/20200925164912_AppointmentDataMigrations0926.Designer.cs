@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20200917172128_AppointmentDataMigrations")]
-    partial class AppointmentDataMigrations
+    [Migration("20200925164912_AppointmentDataMigrations0926")]
+    partial class AppointmentDataMigrations0926
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,12 +44,18 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ContactNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateTimeOfAppointment")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("DealerInfoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()

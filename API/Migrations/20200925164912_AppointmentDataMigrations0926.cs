@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Migrations
 {
-    public partial class AppointmentDataMigrations : Migration
+    public partial class AppointmentDataMigrations0926 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,7 +22,9 @@ namespace API.Migrations
                     CarModel = table.Column<string>(nullable: false),
                     CarYear = table.Column<string>(nullable: false),
                     IsMaintenance = table.Column<bool>(nullable: false),
-                    DateTimeOfAppointment = table.Column<DateTime>(nullable: false)
+                    DateTimeOfAppointment = table.Column<DateTime>(nullable: false),
+                    DealerInfoId = table.Column<int>(nullable: false),
+                    ClientId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -35,5 +35,11 @@ namespace API.Controllers
         {
             return await _mediator.Send(appointment);
         }
+        
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> CancelOrDelete(int id)
+        {
+            return await _mediator.Send(new CancelOrDeleteAppointment.Appointment{Id = id});
+        }
     }
 }

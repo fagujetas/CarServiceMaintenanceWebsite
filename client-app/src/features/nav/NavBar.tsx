@@ -1,6 +1,5 @@
 import React from 'react';
 import { Menu, Container, Button } from 'semantic-ui-react'
-import { SearchDropdownCity } from '../search/SearchDropdownCity';
 import { ICityInfo } from '../../app/models/cityInfo';
 
 interface IProps {
@@ -20,7 +19,7 @@ export const NavBar: React.FC<IProps> = ({ cityinfos }) => {
                     <SearchDropdownCity cityinfos={cityinfos} />
                 </Menu.Item> */}
                 <Menu.Item>
-                    <Button content="Set Appointment" />
+                    <Button content="Register" />
                 </Menu.Item>
             </Container>
         </Menu>

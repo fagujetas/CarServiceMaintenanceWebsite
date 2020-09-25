@@ -1,10 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Container } from 'semantic-ui-react';
-import axios from 'axios';
 import { IDealerInfo } from '../models/dealerInfo';
 import { NavBar } from '../../features/nav/NavBar';
 import { DealersDashboard } from '../../features/dealers/dashboard/DealersDashboard';
 import { ICityInfo } from '../models/cityInfo';
+import { IAppointmentInfo } from '../models/appointmentInfo';
+import apiAgent from '../api/apiAgent';
+import { LoadingComponent } from './LoadingComponent';
 
 const App = () => {
 
@@ -12,24 +14,53 @@ const App = () => {
   const [cityinfos, setCityInfos] = useState<ICityInfo[]>([]);
   const [selectedDealer, setSelectedDealer] = useState<IDealerInfo | null>(null);
 
+  //for showing/hiding appointment
+  const [appointmentMode, setAppointmentMode] = useState(false);
+  const [appointment, setAppointment] = useState<IAppointmentInfo | null>(null);
+
+  //for loading component
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+
   const handleSelectedDealer = (id: string) => {
-    setSelectedDealer(dealerinfos.filter(d => d.id === id)[0])
+    setSelectedDealer(dealerinfos.filter(d => d.id === id)[0]);
+    setAppointmentMode(false);
+  };
+
+  const handleCreateAppointment = (appointment: IAppointmentInfo) => {
+    setSubmitting(true);
+    apiAgent.Appointments.create(appointment).then(() => {
+      console.log(`saving new appointment to database: ${appointment}`);
+      setAppointment(appointment);
+    }).then(() => setSubmitting(false));
+    // setAppointment(appointment);
+  };
+
+  useEffect(() => {
+    apiAgent.Dealers.list()
+      .then(response => {
+        let dealers: IDealerInfo[] = [];
+        response.forEach((dealer) => {
+          dealers.push(dealer);
+        });
+        setDealerinfos(dealers)
+      }).then(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    apiAgent.Dealers.getAllCities()
+      .then(response => {
+        let cities: ICityInfo[] = [];
+        response.forEach((city) => {
+          cities.push(city);
+        });
+        setCityInfos(cities)
+      }).then(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return <LoadingComponent content='Loading...' />
   }
-
-  useEffect(() => {
-    axios.get<IDealerInfo[]>('http://localhost:5000/api/dealerinfos')
-      .then(response => {
-        setDealerinfos(response.data)
-      });
-  }, [])
-
-  //https://localhost:5001/api/dealerinfos/searchallcities
-  useEffect(() => {
-    axios.get<ICityInfo[]>('http://localhost:5000/api/dealerinfos/searchallcities')
-      .then(response => {
-        setCityInfos(response.data)
-      });
-  }, [])
 
   return (
     <Fragment>
@@ -40,13 +71,15 @@ const App = () => {
             cityinfos={cityinfos}
             selectDealer={handleSelectedDealer} 
             selectedDealer={selectedDealer}
+            appointmentMode={appointmentMode}
+            setAppointmentMode={setAppointmentMode}
+            createAppointment={handleCreateAppointment}
+            appointment={appointment}
+            submitting={submitting}
         />
       </Container>
     </Fragment>
   );
-  //}
-
-
 }
 
 export default App;

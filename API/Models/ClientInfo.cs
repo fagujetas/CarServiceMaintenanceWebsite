@@ -1,12 +1,11 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace API.Models
 {
-    public class AppointmentInfo
+    public class ClientInfo
     {
         [Key]
-        public int AppointmentDataId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string FirstName { get; set; }
@@ -31,18 +30,5 @@ namespace API.Models
 
         [Required]
         public string CarYear { get; set; }
-
-        [Required]
-        public bool IsMaintenance { get; set; }
-        
-        [Required]
-        public DateTime DateTimeOfAppointment { get; set; }
-
-        [Required]
-        public int DealerInfoId { get; set; }
-
-        [Required]
-        public int ClientId { get; set; }
-        
     }
 }
